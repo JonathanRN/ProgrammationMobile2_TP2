@@ -64,10 +64,10 @@ class QuestionService {
 
     private interface Service {
 
-        @GET("/api/question/v1/random")
+        @GET("/api/v1/question/random")
         fun getRandomQuestion(): Call<Question>
 
-        @POST("/api/question/v1/{id}/{choice}")
+        @POST("/api/v1/question/{id}/{choice}")
         fun sendResult(@Path("id")id:String,@Path("choice")choice:Int) : Call<String>
     }
 }
