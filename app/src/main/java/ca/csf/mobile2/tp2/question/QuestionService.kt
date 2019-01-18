@@ -1,10 +1,8 @@
-package ca.csf.mobile2.demoretrofit
+package ca.csf.mobile2.tp2.question
 
-import ca.csf.mobile2.tp2.question.Question
 import org.androidannotations.annotations.Background
 import org.androidannotations.annotations.EBean
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.http.GET
@@ -39,6 +37,7 @@ class QuestionService {
             }
         }catch (e:IOException)
         {
+            e.printStackTrace()
             onConnectivityError()
         }
 

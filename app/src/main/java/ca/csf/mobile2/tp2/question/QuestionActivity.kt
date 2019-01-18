@@ -1,12 +1,9 @@
 package ca.csf.mobile2.tp2.question
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
-import ca.csf.mobile2.demoretrofit.QuestionService
 import ca.csf.mobile2.tp2.R
 import org.androidannotations.annotations.*
 
