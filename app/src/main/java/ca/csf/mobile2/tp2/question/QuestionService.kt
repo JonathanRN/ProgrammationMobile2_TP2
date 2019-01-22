@@ -1,5 +1,6 @@
 package ca.csf.mobile2.tp2.question
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.androidannotations.annotations.Background
 import org.androidannotations.annotations.EBean
 import retrofit2.Call
@@ -18,7 +19,7 @@ class QuestionService {
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://m2t2.csfpwmjv.tk/")
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create(jacksonObjectMapper()))
             .build()
 
         service = retrofit.create(Service::class.java)

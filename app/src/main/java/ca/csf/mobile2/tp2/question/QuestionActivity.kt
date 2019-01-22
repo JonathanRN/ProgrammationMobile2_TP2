@@ -1,6 +1,7 @@
 package ca.csf.mobile2.tp2.question
 
 import android.annotation.SuppressLint
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
@@ -39,6 +40,8 @@ class QuestionActivity : AppCompatActivity() {
     protected lateinit var progressBar: ProgressBar
     @ViewById(R.id.toolbar)
     protected lateinit var toolbar: Toolbar
+    @ViewById(R.id.answers_view)
+    protected lateinit var answersView: ConstraintLayout
 
     @Bean
     protected lateinit var questionService: QuestionService
@@ -71,9 +74,7 @@ class QuestionActivity : AppCompatActivity() {
     }
 
     private fun showQuestion(question: Question) {
-        choice1TextView.visibility = View.VISIBLE
-        choice2TextView.visibility = View.VISIBLE
-        toolbar.visibility = View.VISIBLE
+        answersView.visibility = View.VISIBLE
 
         choice1TextView.text = question.choice1
         choice2TextView.text = question.choice2
@@ -82,12 +83,12 @@ class QuestionActivity : AppCompatActivity() {
 
     @UiThread
     protected fun onConnectivityError() {
-        var lul =0
+
     }
 
     @UiThread
     protected fun onServerError() {
-        var lul = 0
+
     }
 
 }
