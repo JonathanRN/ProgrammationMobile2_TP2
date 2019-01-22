@@ -1,18 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ca.csf.mobile2.tp2.question.QuestionActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <Toolbar
-            android:id="@+id/toolbar"
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="viewModel" type="ca.csf.mobile2.tp2.question.QuestionActivityViewModel"/>
+    </data>
+
+    <FrameLayout
+            android:id="@+id/root_view"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            tools:title="Would you rather..." android:visibility="visible"/>
+            android:layout_height="match_parent"
+            tools:context="ca.csf.mobile2.tp2.question.QuestionActivity" android:visibility="visible">
 
-    <!--
+        <Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                tools:title="@{viewModel.text}" android:visibility="visible"/>
+
+        <!--
     *************************************************************
     IMPORTANT!!!!
 
@@ -44,196 +52,205 @@
     *************************************************************
     -->
 
-    <!--
+        <!--
     *************************************************************
     Section "Poser une question"
     *************************************************************
     -->
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:visibility="@{viewModel.question != null ? View.VISIBLE : View.INVISIBLE}"
+                android:id="@+id/buttons_view">
 
-        <Button
-                android:id="@+id/choice1_button"
-                style="@style/AppTheme.Choice1Button"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/choice2_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Only be able to laugh at violently racist jokes" android:visibility="visible"/>
+            <Button
+                    android:id="@+id/choice1_button"
+                    style="@style/AppTheme.Choice1Button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/choice2_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@{viewModel.choice1}" android:visibility="visible"/>
 
-        <Button
-                android:id="@+id/choice2_button"
-                style="@style/AppTheme.Choice2Button"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/choice1_button"
-                tools:text="Only be able to laugh at intricate Star Trek jokes" android:visibility="visible"/>
+            <Button
+                    android:id="@+id/choice2_button"
+                    style="@style/AppTheme.Choice2Button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/choice1_button"
+                    tools:text="@{viewModel.choice2}" android:visibility="visible"/>
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
-    <!--
+        <!--
     *************************************************************
     Section "Afficher les résultats"
     *************************************************************
     -->
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/answers_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/answers_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize" android:visibility="@{viewModel.hasClickedChoice ? View.VISIBLE : View.INVISIBLE}">
 
-        <View
-                android:id="@+id/choice1_result_background"
-                style="@style/AppTheme.Choice1ResultFrame"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/choice2_result_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" android:visibility="visible"/>
+            <View
+                    android:id="@+id/choice1_result_background"
+                    style="@style/AppTheme.Choice1ResultFrame"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/choice2_result_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" android:visibility="visible"/>
 
-        <View
-                android:id="@+id/choice2_result_background"
-                style="@style/AppTheme.Choice2ResultFrame"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/choice1_result_background" android:visibility="visible"/>
+            <View
+                    android:id="@+id/choice2_result_background"
+                    style="@style/AppTheme.Choice2ResultFrame"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/choice1_result_background" android:visibility="visible"/>
 
-        <TextView
-                android:id="@+id/choice1_result_textview"
-                style="@style/AppTheme.ChoiceResultTextView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/choice1_result_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/choice1_result_background"
-                app:layout_constraintVertical_chainStyle="spread"
-                tools:text="55%" android:visibility="visible"/>
+            <TextView
+                    android:id="@+id/choice1_result_textview"
+                    style="@style/AppTheme.ChoiceResultTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@{viewModel.percentageChoice1}"
+                    app:layout_constraintBottom_toBottomOf="@+id/choice1_result_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/choice1_result_background"
+                    app:layout_constraintVertical_chainStyle="spread"
+                    android:visibility="visible"/>
 
-        <TextView
-                android:id="@+id/choice1_textview"
-                style="@style/AppTheme.ChoiceTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/choice1_result_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Only be able to laugh at violently racist jokes" android:visibility="visible"/>
+            <TextView
+                    android:id="@+id/choice1_textview"
+                    style="@style/AppTheme.ChoiceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.choice1}"
+                    app:layout_constraintBottom_toBottomOf="@+id/choice1_result_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Only be able to laugh at violently racist jokes" android:visibility="visible"/>
 
-        <TextView
-                android:id="@+id/choice2_result_textview"
-                style="@style/AppTheme.ChoiceResultTextView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/choice2_result_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/choice2_result_background"
-                tools:text="45%" android:visibility="visible"/>
+            <TextView
+                    android:id="@+id/choice2_result_textview"
+                    style="@style/AppTheme.ChoiceResultTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@{viewModel.percentageChoice2}"
+                    app:layout_constraintBottom_toBottomOf="@+id/choice2_result_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/choice2_result_background"
+                    android:visibility="visible"/>
 
-        <TextView
-                android:id="@+id/choice2_textview"
-                style="@style/AppTheme.ChoiceTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/choice2_result_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Only be able to laugh at violently racist jokes" android:visibility="visible"/>
+            <TextView
+                    android:id="@+id/choice2_textview"
+                    style="@style/AppTheme.ChoiceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.choice2}"
+                    app:layout_constraintBottom_toBottomOf="@+id/choice2_result_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Only be able to laugh at violently racist jokes" android:visibility="visible"/>
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
-    <!--
+        <!--
     *************************************************************
     Section "Afficher les erreurs"
     *************************************************************
     -->
 
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:colorBackground"
-            android:translationZ="16dp" android:visibility="invisible">
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:colorBackground"
+                android:translationZ="16dp" android:visibility="invisible" android:id="@+id/errors_view">
 
-        <ImageView
-                android:id="@+id/error_imageview"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/text_error"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:srcCompat="@drawable/ic_wifi_off" android:visibility="visible"/>
+            <ImageView
+                    android:id="@+id/error_imageview"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/text_error"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:srcCompat="@drawable/ic_wifi_off" android:visibility="visible"/>
 
-        <TextView
-                android:id="@+id/error_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/error_imageview"
-                tools:text="@string/text_error_internet" android:visibility="visible"/>
+            <TextView
+                    android:id="@+id/error_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/text_error_server"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/error_imageview" android:visibility="visible"/>
 
-        <Button
-                android:id="@+id/retry_button"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/text_btn_retry"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/error_textview" android:visibility="visible"/>
+            <Button
+                    android:id="@+id/retry_button"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/text_btn_retry"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/error_textview" android:visibility="visible"/>
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
-    <!--
+        <!--
     *************************************************************
     Section "Afficher le chargement d'une question"
     *************************************************************
     -->
 
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryAlpha"
-            android:translationZ="16dp" android:visibility="invisible">
-
-        <ProgressBar
-                android:id="@+id/progressBar"
+        <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" android:visibility="visible"/>
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryAlpha"
+                android:translationZ="16dp"
+                android:visibility="@{viewModel.question != null ? View.INVISIBLE : View.VISIBLE}"
+                android:id="@+id/progressBar_view">
+
+            <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" android:visibility="visible"/>
+
+        </FrameLayout>
 
     </FrameLayout>
-
-</FrameLayout>
+</layout>
