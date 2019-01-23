@@ -9,8 +9,8 @@ data class Question @ParcelConstructor constructor(
     val text: String,
     val choice1: String,
     val choice2: String,
-    val nbChoice1: Int,
-    val nbChoice2: Int
+    val nbChoice1: Float,
+    val nbChoice2: Float
 ) /*{
     private val changeListeners: MutableList<() -> Unit> = mutableListOf()
     private val hasListeners get() = changeListeners.size > 0
