@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.view.View" />
+        <import type="ca.csf.mobile2.tp2.util.ErrorType" />
         <variable name="viewModel" type="ca.csf.mobile2.tp2.question.QuestionActivityViewModel"/>
     </data>
 
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="?attr/actionBarSize"
-                android:visibility="@{viewModel.question != null ? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{viewModel.shouldShowProgressBar ? View.INVISIBLE : View.VISIBLE}"
                 android:id="@+id/buttons_view">
 
             <Button
@@ -182,7 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?android:colorBackground"
-                android:translationZ="16dp" android:visibility="invisible" android:id="@+id/errors_view">
+                android:translationZ="16dp" android:visibility="@{viewModel.error != ErrorType.None ? View.VISIBLE : View.INVISIBLE}" android:id="@+id/errors_view">
 
             <ImageView
                     android:id="@+id/error_imageview"
@@ -208,7 +209,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/text_error_server"
+                    android:text="@{viewModel.error == ErrorType.Server ? @string/text_error_server : @string/text_error_internet}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/error_imageview" android:visibility="visible"/>
@@ -241,7 +242,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimaryAlpha"
                 android:translationZ="16dp"
-                android:visibility="@{viewModel.question != null ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{viewModel.shouldShowProgressBar ? View.VISIBLE : View.INVISIBLE}"
                 android:id="@+id/progressBar_view">
 
             <ProgressBar

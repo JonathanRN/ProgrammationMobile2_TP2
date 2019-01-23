@@ -2,12 +2,13 @@ package ca.csf.mobile2.tp2.question
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import ca.csf.mobile2.tp2.util.ErrorType
 import ca.csf.mobile2.tp2.util.ViewModelProperty
 import org.parceler.Parcel
 import org.parceler.ParcelConstructor
-import kotlin.math.roundToInt
 
 const val DEFAULT_PERCENTAGE_IF_NO_RESULTS : String = "50%"
+const val PERCENTAGE_FORMAT : String = "%.1f%%"
 
 @Parcel(Parcel.Serialization.BEAN)
 class QuestionActivityViewModel @ParcelConstructor constructor(question: Question?) : BaseObservable() {
@@ -25,17 +26,19 @@ class QuestionActivityViewModel @ParcelConstructor constructor(question: Questio
         get() = question?.choice2 ?: ""
     @get:Bindable
     val percentageChoice1: String
-        get() {
-            return if (totalResults > 0) "${((nbChoice1 * 100) / totalResults).roundToInt()}%" else DEFAULT_PERCENTAGE_IF_NO_RESULTS
-        }
+        get() = nbChoice1.toResultPercentage()
     @get:Bindable
     val percentageChoice2: String
-        get() {
-            return if (totalResults > 0) "${((nbChoice2 * 100) / totalResults).roundToInt()}%" else DEFAULT_PERCENTAGE_IF_NO_RESULTS
-        }
+        get() = nbChoice2.toResultPercentage()
 
     @get:Bindable
     var hasClickedChoice : Boolean by ViewModelProperty(false, this)
+
+    @get:Bindable
+    var error : ErrorType by ViewModelProperty(ErrorType.None, this)
+
+    @get:Bindable
+    var shouldShowProgressBar : Boolean by ViewModelProperty(false, this)
 
     private val totalResults : Float
         get() = nbChoice1 + nbChoice2
@@ -46,6 +49,7 @@ class QuestionActivityViewModel @ParcelConstructor constructor(question: Questio
     private val nbChoice2: Float
         get() = question?.nbChoice2 ?: -1f
 
-    /*@get:Bindable
-    var isServerError : Boolean? by ViewModelProperty(null, this)*/
+    private fun Float.toResultPercentage() : String {
+        return if (totalResults > 0) PERCENTAGE_FORMAT.format((this * 100) / totalResults) else DEFAULT_PERCENTAGE_IF_NO_RESULTS
+    }
 }

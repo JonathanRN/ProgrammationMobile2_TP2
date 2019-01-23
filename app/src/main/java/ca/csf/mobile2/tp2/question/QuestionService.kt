@@ -46,11 +46,13 @@ class QuestionService {
 
     @Background
     fun sendResult(id:String,choice:Int,
-                   onSuccess: (String) -> Unit,
+                   onSuccess: (Question) -> Unit,
                    onConnectivityError: () -> Unit,
                    onServerError: () -> Unit){
         try {
-            val response = service.sendResult(id,choice).execute()
+            val request = if (choice == 1) service.sendResult1(id) else service.sendResult2(id)
+            val response = request.execute()
+
             if(response.isSuccessful){
                 onSuccess(response.body()!!)
             }else{
@@ -64,10 +66,13 @@ class QuestionService {
 
     private interface Service {
 
-        @GET("/api/v1/question/random")
+        @GET("/api/v1/question/random/")
         fun getRandomQuestion(): Call<Question>
 
-        @POST("/api/v1/question/{id}/{choice}")
-        fun sendResult(@Path("id")id:String,@Path("choice")choice:Int) : Call<String>
+        @POST("/api/v1/question/{id}/choose1")
+        fun sendResult1(@Path("id")id:String) : Call<Question>
+
+        @POST("/api/v1/question/{id}/choose2")
+        fun sendResult2(@Path("id")id:String) : Call<Question>
     }
 }
