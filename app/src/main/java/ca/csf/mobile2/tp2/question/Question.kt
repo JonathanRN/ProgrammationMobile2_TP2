@@ -6,26 +6,9 @@ import org.parceler.ParcelConstructor
 @Parcel(Parcel.Serialization.BEAN)
 data class Question @ParcelConstructor constructor(
     val id: String,
-    val text: String,
-    val choice1: String,
-    val choice2: String,
-    val nbChoice1: Float,
-    val nbChoice2: Float
-) /*{
-    private val changeListeners: MutableList<() -> Unit> = mutableListOf()
-    private val hasListeners get() = changeListeners.size > 0
-
-    fun addChangeListener(listener: () -> Unit) {
-        changeListeners.add(listener)
-    }
-
-    fun removeChangeListener(listener: () -> Unit) {
-        changeListeners.remove(listener)
-    }
-
-    private fun notifyChanged() {
-        if (hasListeners) {
-            for (listener in changeListeners) listener()
-        }
-    }
-}*/
+    var text: String,
+    var choice1: String,
+    var choice2: String,
+    var nbChoice1: Float,
+    var nbChoice2: Float
+)

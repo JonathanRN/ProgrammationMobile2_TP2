@@ -41,7 +41,6 @@ class QuestionService {
             e.printStackTrace()
             onConnectivityError()
         }
-
     }
 
     @Background
@@ -64,6 +63,24 @@ class QuestionService {
         }
     }
 
+    @Background
+    fun addQuestion(onSuccess: (Question) -> Unit,
+                    onConnectivityError: () -> Unit,
+                    onServerError: () -> Unit) {
+        try {
+            val response = service.addQuestion().execute()
+            if(response.isSuccessful){
+                onSuccess(response.body()!!)
+            }else{
+                onServerError()
+            }
+        }catch (e:IOException)
+        {
+            e.printStackTrace()
+            onConnectivityError()
+        }
+    }
+
     private interface Service {
 
         @GET("/api/v1/question/random/")
@@ -74,5 +91,8 @@ class QuestionService {
 
         @POST("/api/v1/question/{id}/choose2")
         fun sendResult2(@Path("id")id:String) : Call<Question>
+
+        @POST("/api/v1/question")
+        fun addQuestion() : Call<Question>
     }
 }

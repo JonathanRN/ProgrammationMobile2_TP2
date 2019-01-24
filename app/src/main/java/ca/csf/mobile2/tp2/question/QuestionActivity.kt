@@ -82,4 +82,9 @@ class QuestionActivity : AppCompatActivity() {
         viewModel.error = ErrorType.Server
         viewModel.shouldShowProgressBar = false
     }
+
+    @Click(R.id.createQuestionButton)
+    protected fun onCreateQuestionButtonClicked() {
+        CreateQuestionActivity_.intent(this).start()
+    }
 }
