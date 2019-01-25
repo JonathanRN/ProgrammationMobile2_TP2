@@ -6,6 +6,7 @@ import org.androidannotations.annotations.EBean
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -64,11 +65,11 @@ class QuestionService {
     }
 
     @Background
-    fun addQuestion(onSuccess: (Question) -> Unit,
+    fun addQuestion(question:Question,onSuccess: (Question) -> Unit,
                     onConnectivityError: () -> Unit,
                     onServerError: () -> Unit) {
         try {
-            val response = service.addQuestion().execute()
+            val response = service.addQuestion(question).execute()
             if(response.isSuccessful){
                 onSuccess(response.body()!!)
             }else{
@@ -93,6 +94,6 @@ class QuestionService {
         fun sendResult2(@Path("id")id:String) : Call<Question>
 
         @POST("/api/v1/question")
-        fun addQuestion() : Call<Question>
+        fun addQuestion(@Body question:Question) : Call<Question>
     }
 }

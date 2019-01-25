@@ -27,6 +27,7 @@ class CreateQuestionActivity : AppCompatActivity() {
     protected fun onCreateQuestionButtonClicked() {
         if (viewModel.isQuestionValid) {
             questionService.addQuestion(
+                viewModel.question,
                 this::onQuestionAdd,
                 this::onConnectivityError,
                 this::onServerError
