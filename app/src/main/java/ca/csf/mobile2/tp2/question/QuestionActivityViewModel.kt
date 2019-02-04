@@ -7,8 +7,8 @@ import ca.csf.mobile2.tp2.util.ViewModelProperty
 import org.parceler.Parcel
 import org.parceler.ParcelConstructor
 
-const val DEFAULT_PERCENTAGE_IF_NO_RESULTS : String = "50%"
-const val PERCENTAGE_FORMAT : String = "%.1f%%"
+private const val DEFAULT_PERCENTAGE_IF_NO_RESULTS : String = "50%"
+private const val PERCENTAGE_FORMAT : String = "%.1f%%"
 
 @Parcel(Parcel.Serialization.BEAN)
 class QuestionActivityViewModel @ParcelConstructor constructor(question: Question?) : BaseObservable() {

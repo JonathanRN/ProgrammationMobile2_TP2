@@ -1,5 +1,6 @@
 package ca.csf.mobile2.tp2.question
 
+import android.util.Log
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.androidannotations.annotations.Background
 import org.androidannotations.annotations.EBean
@@ -15,7 +16,7 @@ import java.io.IOException
 @EBean(scope = EBean.Scope.Singleton)
 class QuestionService {
 
-    private val service : Service
+    private val service: Service
 
     init {
         val retrofit = Retrofit.Builder()
@@ -27,57 +28,59 @@ class QuestionService {
     }
 
     @Background
-    fun getRandomQuestion(onSuccess: (Question) -> Unit,
-                          onConnectivityError: () -> Unit,
-                          onServerError: () -> Unit){
+    fun getRandomQuestion(
+        onSuccess: (Question) -> Unit,
+        onConnectivityError: () -> Unit,
+        onServerError: () -> Unit
+    ) {
         try {
             val response = service.getRandomQuestion().execute()
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 onSuccess(response.body()!!)
-            }else{
+            } else {
                 onServerError()
             }
-        }catch (e:IOException)
-        {
-            e.printStackTrace()
+        } catch (e: IOException) {
             onConnectivityError()
         }
     }
 
     @Background
-    fun sendResult(id:String,choice:Int,
-                   onSuccess: (Question) -> Unit,
-                   onConnectivityError: () -> Unit,
-                   onServerError: () -> Unit){
+    fun sendResult(
+        id: String, choice: Int,
+        onSuccess: (Question) -> Unit,
+        onConnectivityError: () -> Unit,
+        onServerError: () -> Unit
+    ) {
         try {
             val request = if (choice == 1) service.sendResult1(id) else service.sendResult2(id)
             val response = request.execute()
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 onSuccess(response.body()!!)
-            }else{
+            } else {
                 onServerError()
             }
-        }catch (e:IOException)
-        {
+        } catch (e: IOException) {
             onConnectivityError()
         }
     }
 
     @Background
-    fun addQuestion(question:Question,onSuccess: (Question) -> Unit,
-                    onConnectivityError: () -> Unit,
-                    onServerError: () -> Unit) {
+    fun addQuestion(
+        question: Question, onSuccess: (Question) -> Unit,
+        onConnectivityError: () -> Unit,
+        onServerError: () -> Unit
+    ) {
         try {
             val response = service.addQuestion(question).execute()
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 onSuccess(response.body()!!)
-            }else{
+            } else {
                 onServerError()
             }
-        }catch (e:IOException)
-        {
-            e.printStackTrace()
+        } catch (e: IOException) {
+            Log.d(QuestionService::class.simpleName, e.message)
             onConnectivityError()
         }
     }
@@ -88,12 +91,12 @@ class QuestionService {
         fun getRandomQuestion(): Call<Question>
 
         @POST("/api/v1/question/{id}/choose1")
-        fun sendResult1(@Path("id")id:String) : Call<Question>
+        fun sendResult1(@Path("id") id: String): Call<Question>
 
         @POST("/api/v1/question/{id}/choose2")
-        fun sendResult2(@Path("id")id:String) : Call<Question>
+        fun sendResult2(@Path("id") id: String): Call<Question>
 
         @POST("/api/v1/question")
-        fun addQuestion(@Body question:Question) : Call<Question>
+        fun addQuestion(@Body question: Question): Call<Question>
     }
 }
